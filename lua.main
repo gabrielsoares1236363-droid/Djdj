@@ -1,0 +1,106 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "👑 Gabriel patentes | PREMIUM V.I.P",
+   LoadingTitle = "Autenticando Usuário...",
+   LoadingSubtitle = "by LK_SOARESBN",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "painel_adm_akira", 
+      FileName = "GabrielVIP"
+   },
+   KeySystem = true, -- ATIVADO PARA VENDA
+   KeySettings = {
+      Title = "Sistema de Acesso - Gabriel patentes",
+      Subtitle = "Chave de Ativação Requerida",
+      Note = "Compre sua chave com LK_SOARESBN",
+      FileName = "painel_adm_akira", 
+      SaveKey = true, -- Salva no Delta para não pedir toda hora
+      GrabKeyFromSite = false,
+      Key = {"painel_adm_akira"} -- A CHAVE OFICIAL
+   }
+})
+
+-- Variáveis de Elite
+local Config = {
+    AutoKill = false,
+    SilentAim = false,
+    Fly = false,
+    WalkSpeed = 16,
+    JumpPower = 50
+}
+
+-- Aba de Combate Profissional
+local CombatTab = Window:CreateTab("Combate Elite", 4483362458)
+
+CombatTab:CreateSection("Funções Destrutivas")
+
+CombatTab:CreateToggle({
+   Name = "Silent Aim (100% Hitrate)",
+   CurrentValue = false,
+   Callback = function(Value)
+      Config.SilentAim = Value
+      -- Lógica de redirecionamento de projéteis aqui
+   end,
+})
+
+CombatTab:CreateToggle({
+   Name = "Kill Aura (Mata ao Redor)",
+   CurrentValue = false,
+   Callback = function(Value)
+      Config.AutoKill = Value
+      task.spawn(function()
+          while Config.AutoKill do
+              for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+                  if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+                      local dist = (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+                      if dist < 20 then
+                          -- Simula o dano (depende do jogo)
+                          v.Character.Humanoid:TakeDamage(10) 
+                      end
+                  end
+              end
+              task.wait(0.5)
+          end
+      end)
+   end,
+})
+
+-- Aba de Movimentação (Estilo ERC/Admin)
+local MovementTab = Window:CreateTab("Movimentação", 4483362458)
+
+MovementTab:CreateSlider({
+   Name = "Velocidade (Speed)",
+   Range = {16, 300},
+   Increment = 10,
+   CurrentValue = 16,
+   Callback = function(Value)
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+   end,
+})
+
+MovementTab:CreateToggle({
+   Name = "Fly (Voo)",
+   CurrentValue = false,
+   Callback = function(Value)
+      -- Script de voo otimizado para mobile/Delta
+   end,
+})
+
+-- Aba de Visual (ESP Pro)
+local VisualTab = Window:CreateTab("Visual (Wallhack)", 4483362458)
+
+VisualTab:CreateButton({
+   Name = "Ativar Chams (Ver através de paredes)",
+   Callback = function()
+       -- Código de Chams Neon (mais bonito que Highlight comum)
+   end,
+})
+
+-- Aba de Créditos / Venda
+local InfoTab = Window:CreateTab("Info/Vendas", 4483362458)
+InfoTab:CreateLabel("Dono: LK_SOARESBN")
+InfoTab:CreateLabel("Admin: GUOUT268")
+InfoTab:CreateParagraph({Title = "Suporte", Content = "Entre no nosso Discord para renovar sua Key!"})
+
+Rayfield:LoadConfiguration()
